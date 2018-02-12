@@ -1,13 +1,10 @@
 # Create your views here.
-from django.core.exceptions import ValidationError
-from rest_framework import mixins, generics, viewsets, status
-from rest_framework.permissions import IsAuthenticated, \
-    IsAuthenticatedOrReadOnly
+from rest_framework import viewsets, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from calendar_app.models import CalendarEntry
-from calendar_app.serializers import CalendarEntrySerializer, \
-    CalendarEntryCreateSerializer
+from calendar_app.serializers import CalendarEntrySerializer
 
 
 class CalendarEntryView(viewsets.ModelViewSet):
@@ -30,19 +27,15 @@ class CalendarEntryView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
-        allowed = ['start_datetime', 'end_datetime', 'label']
-        filtered = {
-            k: request.data[k] for k in allowed if k in request.data
-        }
-        try:
-            calendar_entry = CalendarEntry.objects.create(
-                user=request.user,
-                **filtered
-            )
-        except KeyError as e:
-            return Response(e, status=status.HTTP_400_BAD_REQUEST)
-        except ValidationError as e:
-            return Response(e, status=status.HTTP_400_BAD_REQUEST)
-
-        serializer = CalendarEntryCreateSerializer(calendar_entry)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print({**request.data, "user": request.user.id})
+        serializer = CalendarEntrySerializer(
+            data={**request.data, 'user': request.user.id}
+        )
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
