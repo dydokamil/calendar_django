@@ -1,5 +1,6 @@
 # Create your views here.
 from rest_framework import viewsets, status
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -22,6 +23,17 @@ class CalendarEntryView(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = CalendarEntry.objects.filter(user=request.user)
+
+        if 'year' in request.GET:
+            queryset = queryset.filter(start_datetime__year=request.GET['year'])
+
+        if 'month' in request.GET:
+            queryset = queryset.filter(
+                start_datetime__month=request.GET['month']
+            )
+
+        if 'day' in request.GET:
+            queryset = queryset.filter(start_datetime__day=request.GET['day'])
 
         serializer = CalendarEntrySerializer(queryset, many=True)
         return Response(serializer.data)
