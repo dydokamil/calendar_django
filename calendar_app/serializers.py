@@ -6,7 +6,7 @@ from calendar_app.models import CalendarEntry
 class CalendarEntryCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalendarEntry
-        fields = ('label', 'datetime')
+        fields = ('label', 'start_datetime', 'end_datetime')
 
 
 class CalendarEntrySerializer(serializers.ModelSerializer):
@@ -15,7 +15,7 @@ class CalendarEntrySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CalendarEntryDetailsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CalendarEntry
-        fields = ('user', 'label', 'datetime')
+# class CalendarEntryDetailsSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CalendarEntry
+#         fields = ('user', 'label', 'datetime')
