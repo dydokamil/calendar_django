@@ -5,13 +5,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from calendar_app.models import CalendarEntry
+from calendar_app.permissions import IsOwnerOrReadOnly
 from calendar_app.serializers import CalendarEntrySerializer
 
 
 class CalendarEntryView(viewsets.ModelViewSet):
     queryset = CalendarEntry.objects.all()
     serializer_class = CalendarEntrySerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -25,15 +26,13 @@ class CalendarEntryView(viewsets.ModelViewSet):
         queryset = CalendarEntry.objects.filter(user=request.user)
 
         if 'year' in request.GET:
-            queryset = queryset.filter(start_datetime__year=request.GET['year'])
+            queryset = queryset.filter(date__year=request.GET['year'])
 
         if 'month' in request.GET:
-            queryset = queryset.filter(
-                start_datetime__month=request.GET['month']
-            )
+            queryset = queryset.filter(date__month=request.GET['month'])
 
         if 'day' in request.GET:
-            queryset = queryset.filter(start_datetime__day=request.GET['day'])
+            queryset = queryset.filter(date__day=request.GET['day'])
 
         serializer = CalendarEntrySerializer(queryset, many=True)
         return Response(serializer.data)
