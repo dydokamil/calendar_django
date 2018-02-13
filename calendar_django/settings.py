@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '#g9s@nd67bq9(&bu(_v!w2rrpvi3e^vazqdkum)&%9o-@8p2bi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['192.168.0.102', 'calendar-django.herokuapp.com']
 
