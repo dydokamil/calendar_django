@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'calendar_app',
     'rest_framework',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
