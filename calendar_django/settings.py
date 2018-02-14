@@ -131,5 +131,7 @@ REST_FRAMEWORK = {
 APPEND_SLASH = True
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:3000', '192.168.0.102:3000'
+    'localhost:3000',
+    '192.168.0.102:3000'
+    'react-calendar-django.herokuapp.com'
 )
