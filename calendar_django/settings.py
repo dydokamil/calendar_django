@@ -24,7 +24,10 @@ SECRET_KEY = '#g9s@nd67bq9(&bu(_v!w2rrpvi3e^vazqdkum)&%9o-@8p2bi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.0.102', 'calendar-django.herokuapp.com']
+ALLOWED_HOSTS = [
+    'react-calendar-django.herokuapp.com',
+    'calendar-django.herokuapp.com',
+]
 
 # Application definition
 
@@ -41,9 +44,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -132,7 +135,6 @@ REST_FRAMEWORK = {
 APPEND_SLASH = True
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:3000',
-    '192.168.0.102:3000'
-    'react-calendar-django.herokuapp.com'
+    'react-calendar-django.herokuapp.com',
+    'calendar-django.herokuapp.com'
 )
